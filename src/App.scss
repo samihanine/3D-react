@@ -1,0 +1,26 @@
+*::before, *::after, * {
+    box-sizing: border-box;
+}
+
+.main {
+    z-index: 999;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 20px;
+    
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.score {
+
+    margin: 0 10px;
+    font-size: 80px;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+
+}
