@@ -1,16 +1,15 @@
 import './App.scss';
 import React, { useRef, useState, Suspense, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment,  Html, useProgress, PerspectiveCamera } from '@react-three/drei'
-import { generateMap, generateBlocks } from './service/generate';
-import Player from './Scene/Player';
-import DisplayDecor from './Scene/Decor';
-import Background from './Scene/Background';
+import { Environment, PerspectiveCamera } from '@react-three/drei'
 
-function Loader() {
-  const { progress } = useProgress()
-  return <Html center>{progress} % loaded</Html>
-}
+import { generateMap, generateBlocks } from './service/generate';
+import Player from './scene/Player';
+import DisplayDecor from './scene/Decor';
+import Background from './scene/Background';
+import { VscDebugRestart } from "react-icons/vsc";
+import Loader from './components/Loader';
+import { distance, initial_speed } from "./constante";
 
 let count = 0;
 let count_speed = 0;
@@ -21,25 +20,32 @@ function Content(props) {
   const player = useRef();
   const { state, setState, score, setScore, bestScore, setBestScore } = props;
   const [decors, setDecors] = useState(generateMap());
-  const [speed, setSpeed] = useState(0.65);
+  const [speed, setSpeed] = useState(initial_speed);
   
-
   const reset = () => {
-    setSpeed(0.65);
+    setSpeed(initial_speed);
     setDecors(generateMap());
     setScore(0);
     camera.current.position.z = 4;
     player.current.position.z = 2.2;
     player.current.position.x = -1.15;
+    camera.current.position.x = -1.1;
+    setState(1);
   }
+  
   
   const die = () => {
     setState(2);
   }
 
+  useEffect(() => {
+    if (state == 3) {
+      reset();
+    }
+  }, [state])
   useFrame(() => {
     
-    if (Date.now() > date + 10 && state == 0) {
+    if (/*Date.now() > date + 20 &&*/ state == 0) {
       date = Date.now();
       if (camera.current) camera.current.position.z -= speed;
       if (player.current) player.current.position.z -= speed;
@@ -52,12 +58,14 @@ function Content(props) {
         return item.position[0] == player.current?.position?.x && gap < 1.5;
       })
       if (near_obstacles.length) die();
+
+      if (count_speed == 10) {
+        count_speed = 0;
+        if (speed < 2 && speed > 0) setSpeed(old => old + 0.0005)
+      }
     }
 
-    if (count_speed == 5) {
-      count_speed = 0;
-      if (speed < 2 && speed > 0) setSpeed(old => old + 0.0004)
-    }
+
 
     if (count > 3 || count + speed > 3) {
       count = count-3;
@@ -78,11 +86,28 @@ function Content(props) {
   return <>
     <PerspectiveCamera ref={camera} position={[-1.1, 4.5, 4]} rotation={[-0.64,0,0]} fov={100} makeDefault={true} />
 
-    <Player player={player} state={state} setState={setState} setSpeed={setSpeed} speed={speed} />
+    <Player player={player} state={state} setState={setState} camera={camera} />
 
     <DisplayDecor decors={decors} />
     <ambientLight intensity={0.0001} />
     <Background camera={camera} speed={speed} />
+    <mesh position={[0, 0,(camera?.current?.position?.z || 0)]}>
+      <mesh position={[-16.15, 1, 0]}>
+        <boxGeometry args={[20, 1, distance * 2 + 10]} />
+        <meshStandardMaterial color={'#b8ed87'} />
+      </mesh>
+
+      <mesh position={[14.15, 1, 0]}>
+        <boxGeometry args={[20, 1, distance * 2 + 10]} />
+        <meshStandardMaterial color={'#b8ed87'} />
+      </mesh>
+
+      {/*<mesh position={[-1, 1.3, 0]}>
+        <boxGeometry args={[10, 0, distance + 50]} />
+        <meshStandardMaterial color={'#fff'} />
+      </mesh>*/}
+    </mesh>
+
 
     <Environment preset="sunset" background />
   </>
@@ -101,14 +126,24 @@ function App() {
   return (
     <>
     <div className="main">
-      
-      <div className="score">
-        {score}
+      <div className="head">
+        <div className="score">
+          {score}
+        </div>
+
+        <div className="score best">
+          {bestScore}
+        </div>
       </div>
 
-      <div className="score best">
-        {bestScore}
-      </div>
+      {state == 1 && <div className="center pause">
+        Appuyez sur espace pour jouer  
+      </div>}
+
+      {state == 2 && <div className="center">
+        <p className="die">Perdu !</p>
+        <p><VscDebugRestart onClick={() => setState(3)} /></p>
+      </div>}
     </div>
 
     <Canvas ref={canvas}>

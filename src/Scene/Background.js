@@ -2,8 +2,10 @@ import * as THREE from 'three';
 import { useTexture } from '@react-three/drei';
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber'
+
 const Background = (props) => {
     const myTexture = useTexture("https://ditto.tv/wp-content/uploads/2020/03/AdobeStock_299834872.jpg");
+    //const myTexture = useTexture("/images/sunset.jpg");
     const img = useRef();
 
     useFrame(() => {
