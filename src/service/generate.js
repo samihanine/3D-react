@@ -28,7 +28,7 @@ export function generateBlocks(props) {
     const center_int = getRandomItem(center);
     
     // voitures
-    if (!props.start && ["1","5","2"].includes(digit)) {
+    if (!props.start && ["1","5","2","7"].includes(digit)) {
         ground.push({ 
             Model: <mesh rotation-y={Math.PI/2}  {...props}>{getRandomItem(obstacles)}</mesh>, 
             position: [center_int, 1.2, props.z],
@@ -38,9 +38,9 @@ export function generateBlocks(props) {
     }
     
     // pièces
-    if (!props.start && ["3"].includes(digit)) {
+    if (!props.start && ["3"].includes(digit) && Math.floor(Math.random() * 2) == 1) {
         ground.push({ 
-            Model: <mesh position={[0,0,0]} rotation-z={Math.PI/2} rotation-x={Math.PI/2}>
+            Model: <mesh rotation-x={Math.PI/2}>
                 {models["cheese"]}
             </mesh>, 
             position: [center_int, 2, props.z],

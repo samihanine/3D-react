@@ -35,6 +35,9 @@ function Content(props) {
   
   
   const die = () => {
+    const audio = new Audio('/audio/crash.mp3')
+    audio.volume = 0.3;
+    audio.play();
     setState(2);
   }
 
@@ -45,7 +48,6 @@ function Content(props) {
   }, [state])
 
   const collision = () => {
-    
     const near_obstacles = [...decors].filter(item => {
       const gap = Math.abs(Math.abs(item.position[2]) - Math.abs(player.current?.position?.z-1));
       return item.obstacle && item.x == player.current?.x && gap < 1.5;
@@ -58,8 +60,10 @@ function Content(props) {
     });
 
     if (near_coin) {
+      near_coin.position[2] = 100;
       setCoin(old => old + 1);
-      setDecors(old => [...old.filter(item => item != near_coin)])
+      setDecors(old => [...old.filter(item => item != near_coin)]);
+      new Audio('/audio/coin.mp3').play();
     }
   } 
 

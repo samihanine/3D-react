@@ -5,8 +5,10 @@
 - [x] Obstacles
 - [x] Score & meilleur score
 - [x] Pause & mort
-- [ ] Menu principale & menu pause
 - [x] Pièces
+- [ ] Son
+- [ ] Musique
+- [ ] Menu principale & menu pause
 - [ ] Personalisation voitures
 - [ ] Boutique
 - [ ] Nouveaux décors
