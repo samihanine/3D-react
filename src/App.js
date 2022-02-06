@@ -18,7 +18,7 @@ let date = Date.now();;
 function Content(props) {
   const camera = useRef();
   const player = useRef();
-  const { state, setState, score, setScore, bestScore, setBestScore } = props;
+  const { state, setState, score, setScore, bestScore, setBestScore, setCoin } = props;
   const [decors, setDecors] = useState(generateMap());
   const [speed, setSpeed] = useState(initial_speed);
   
@@ -31,6 +31,7 @@ function Content(props) {
     player.current.position.x = -1.15;
     camera.current.position.x = -1.1;
     setState(1);
+    setCoin(0);
   }
   
   
@@ -43,6 +44,25 @@ function Content(props) {
       reset();
     }
   }, [state])
+
+  const collision = () => {
+    const near_obstacles = [...decors].filter(item => {
+      const gap = Math.abs(Math.abs(item.position[2]) - Math.abs(player.current?.position?.z-1));
+      return item.obstacle && item.position[0] == player.current?.position?.x && gap < 1.5;
+    })
+    if (near_obstacles.length) die();
+    const near_coin = [...decors].find(item => {
+      const gap = Math.abs(Math.abs(item.position[2]) - Math.abs(player.current?.position?.z-1));
+      
+      return item.coin && item.position[0] == player.current?.position?.x && gap < 1.5;
+    });
+
+    if (near_coin) {
+      setCoin(old => old + 1);
+      setDecors(old => [...old.filter(item => item != near_coin)])
+    }
+  } 
+
   useFrame(() => {
     
     if (/*Date.now() > date + 20 &&*/ state == 0) {
@@ -53,12 +73,9 @@ function Content(props) {
       count = Math.round(count*1000)/1000;
       count_speed += 1;
 
-      const near_obstacles = [...decors].filter(item => {
-        const gap = Math.abs(Math.abs(item.position[2]) - Math.abs(player.current?.position?.z-1));
-        return item.position[0] == player.current?.position?.x && gap < 1.5;
-      })
-      if (near_obstacles.length) die();
+      collision();
 
+      
       if (count_speed == 10) {
         count_speed = 0;
         if (speed < 2 && speed > 0) setSpeed(old => old + 0.0005)
@@ -116,23 +133,29 @@ function Content(props) {
 function App() {
   const canvas = useRef()
   const [score, setScore] = useState(0);
-  const [bestScore, setBestScore] = useState(parseInt(window.localStorage.getItem("best_score") || 0));
+  const [bestScore, setBestScore] = useState(parseInt(window.localStorage.getItem("best_score") || 0) || 0);
   const [state, setState] = useState(1);
+  const [coin, setCoin] = useState(parseInt(window.localStorage.getItem("coin") || 0) || 0);
 
   useEffect(() => {
     window.localStorage.setItem("best_score", bestScore)
   }, [bestScore]);
+
+  useEffect(() => {
+    window.localStorage.setItem("coin", coin)
+  }, [coin]);
 
   return (
     <>
     <div className="main">
       <div className="head">
         <div className="score">
-          {score}
+          <p>{score}</p>
+          <p>{bestScore}</p>
         </div>
 
-        <div className="score best">
-          {bestScore}
+        <div className="score coin">
+          {coin}
         </div>
       </div>
 
@@ -155,6 +178,7 @@ function App() {
           setScore={setScore} 
           bestScore={bestScore}
           setBestScore={setBestScore} 
+          setCoin={setCoin}
         />
       </Suspense>
     </Canvas>

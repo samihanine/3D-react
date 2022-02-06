@@ -26,9 +26,16 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
+        p { 
+            margin: 0;
+        }
     
         .score {
             margin: 0 10px;
+        }
+
+        .coin {
+            color: rgb(255, 208, 0) !important;
         }
     }
     .center {

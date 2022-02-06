@@ -10,12 +10,12 @@ function Player(props) {
     useEffect(() => {
       if (ctrl.left && player.current.position.x > -5.15 && state === 0) {
         player.current.position.x -= 2;
-        if (camera.current) camera.current.position.x -= 2;
+        //if (camera.current) camera.current.position.x -= 2;
         player.current.position.x = Math.round(player.current.position.x*100)/100
       }
       if (ctrl.right && player.current.position.x < 2.85 && state === 0) {
         player.current.position.x += 2;
-        if (camera.current) camera.current.position.x += 2;
+        //if (camera.current) camera.current.position.x += 2;
         player.current.position.x = Math.round(player.current.position.x*100)/100
       }
 
