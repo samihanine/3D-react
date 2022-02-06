@@ -29,9 +29,8 @@ function Content(props) {
     camera.current.position.z = 4;
     player.current.position.z = 2.2;
     player.current.position.x = -1.15;
-    camera.current.position.x = -1.1;
+    camera.current.position.x = -1.15;
     setState(1);
-    setCoin(0);
   }
   
   
@@ -46,15 +45,16 @@ function Content(props) {
   }, [state])
 
   const collision = () => {
+    
     const near_obstacles = [...decors].filter(item => {
       const gap = Math.abs(Math.abs(item.position[2]) - Math.abs(player.current?.position?.z-1));
-      return item.obstacle && item.position[0] == player.current?.position?.x && gap < 1.5;
+      return item.obstacle && item.x == player.current?.x && gap < 1.5;
     })
     if (near_obstacles.length) die();
     const near_coin = [...decors].find(item => {
       const gap = Math.abs(Math.abs(item.position[2]) - Math.abs(player.current?.position?.z-1));
       
-      return item.coin && item.position[0] == player.current?.position?.x && gap < 1.5;
+      return item.coin && item.x == player.current?.x && gap < 1.5;
     });
 
     if (near_coin) {
@@ -67,8 +67,8 @@ function Content(props) {
     
     if (/*Date.now() > date + 20 &&*/ state == 0) {
       date = Date.now();
-      if (camera.current) camera.current.position.z -= speed;
       if (player.current) player.current.position.z -= speed;
+      if (camera.current) camera.current.position.z -= speed;
       count += speed;
       count = Math.round(count*1000)/1000;
       count_speed += 1;
@@ -101,7 +101,7 @@ function Content(props) {
   });
 
   return <>
-    <PerspectiveCamera ref={camera} position={[-1.1, 4.5, 4]} rotation={[-0.64,0,0]} fov={100} makeDefault={true} />
+    <PerspectiveCamera ref={camera} position={[-1.15,4.5,4]} rotation={[-0.64,0,0]} fov={100} makeDefault={true} />
 
     <Player player={player} state={state} setState={setState} camera={camera} />
 

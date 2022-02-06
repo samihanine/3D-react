@@ -6,7 +6,7 @@
 - [x] Score & meilleur score
 - [x] Pause & mort
 - [ ] Menu principale & menu pause
-- [ ] Pièces
+- [x] Pièces
 - [ ] Personalisation voitures
 - [ ] Boutique
 - [ ] Nouveaux décors
