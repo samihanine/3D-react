@@ -11,6 +11,8 @@ import { VscDebugRestart } from "react-icons/vsc";
 import Loader from './components/Loader';
 import { distance, initial_speed } from "./constante";
 
+import Speedometer from "./components/Speedometer/Speedometer";
+
 let count = 0;
 let count_speed = 0;
 let date = Date.now();;
@@ -18,9 +20,9 @@ let date = Date.now();;
 function Content(props) {
   const camera = useRef();
   const player = useRef();
-  const { state, setState, score, setScore, bestScore, setBestScore, setCoin } = props;
+  const { state, setState, score, setScore, bestScore, setBestScore, setCoin, speed, setSpeed } = props;
   const [decors, setDecors] = useState(generateMap());
-  const [speed, setSpeed] = useState(initial_speed);
+  
   
   const reset = () => {
     setSpeed(initial_speed);
@@ -39,6 +41,10 @@ function Content(props) {
     audio.volume = 0.3;
     audio.play();
     setState(2);
+    if (score >= bestScore) {
+      setBestScore(score)
+
+    }
   }
 
   useEffect(() => {
@@ -68,7 +74,6 @@ function Content(props) {
   } 
 
   useFrame(() => {
-    
     if (/*Date.now() > date + 20 &&*/ state == 0) {
       date = Date.now();
       if (player.current) player.current.position.z -= speed;
@@ -86,8 +91,6 @@ function Content(props) {
       }
     }
 
-
-
     if (count > 3 || count + speed > 3) {
       count = count-3;
       
@@ -100,7 +103,6 @@ function Content(props) {
       setDecors([...old_decors]);
 
       setScore(old => old + 1);
-      if (score >= bestScore) setBestScore(score)
     }
   });
 
@@ -123,10 +125,10 @@ function Content(props) {
         <meshStandardMaterial color={'#b8ed87'} />
       </mesh>
 
-      {/*<mesh position={[-1, 1.3, 0]}>
+      <mesh position={[-1, 1.3, 0]}>
         <boxGeometry args={[10, 0, distance + 50]} />
         <meshStandardMaterial color={'#fff'} />
-      </mesh>*/}
+      </mesh>
     </mesh>
 
 
@@ -140,6 +142,7 @@ function App() {
   const [bestScore, setBestScore] = useState(parseInt(window.localStorage.getItem("best_score") || 0) || 0);
   const [state, setState] = useState(1);
   const [coin, setCoin] = useState(parseInt(window.localStorage.getItem("coin") || 0) || 0);
+  const [speed, setSpeed] = useState(initial_speed);
 
   useEffect(() => {
     window.localStorage.setItem("best_score", bestScore)
@@ -148,6 +151,7 @@ function App() {
   useEffect(() => {
     window.localStorage.setItem("coin", coin)
   }, [coin]);
+  
 
   return (
     <>
@@ -159,8 +163,10 @@ function App() {
         </div>
 
         <div className="score coin">
+          {/*Math.round(speed*100)/100*/}
           {coin}
         </div>
+
       </div>
 
       {state == 1 && <div className="center pause">
@@ -183,6 +189,8 @@ function App() {
           bestScore={bestScore}
           setBestScore={setBestScore} 
           setCoin={setCoin}
+          speed={speed}
+          setSpeed={setSpeed}
         />
       </Suspense>
     </Canvas>

@@ -6,7 +6,7 @@
 - [x] Score & meilleur score
 - [x] Pause & mort
 - [x] Pièces
-- [ ] Son
+- [x] Son
 - [ ] Musique
 - [ ] Menu principale & menu pause
 - [ ] Personalisation voitures
@@ -15,5 +15,5 @@
 
 ### Packages
 ```
-npm i @react-three/fiber three sass node-sass @react-three/drei react-icons
+npm i @react-three/fiber three sass node-sass @react-three/drei react-icons react-router react-router-dom
 ```

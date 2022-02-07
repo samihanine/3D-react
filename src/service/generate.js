@@ -21,14 +21,19 @@ export function generateBlocks(props) {
   
     let ground = [];
     
-    // arbres
-    ground.push({ Model: getRandomItem(trees), position: [getRandomItem(sides), 1.35, props.z] });
-  
+
+    
     const digit = props.z.toString()[props.z.toString().length-1];
     const center_int = getRandomItem(center);
     
+    // arbres
+  
+    ground.push({ Model: getRandomItem(trees), position: [getRandomItem(sides), 1.35, props.z] });
+    
+
     // voitures
-    if (!props.start && ["1","5","2","7"].includes(digit)) {
+    if (["1","5","2","7"].includes(digit)) {
+
         ground.push({ 
             Model: <mesh rotation-y={Math.PI/2}  {...props}>{getRandomItem(obstacles)}</mesh>, 
             position: [center_int, 1.2, props.z],
@@ -48,7 +53,9 @@ export function generateBlocks(props) {
             x: center.indexOf(center_int)
         });
     }
+
+    //console.log(ground)
   
-    ground.push(...road);
-    return ground;
+    //ground.push(...road);
+    return [...ground];
 }

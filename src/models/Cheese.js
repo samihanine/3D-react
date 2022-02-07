@@ -10,6 +10,7 @@ export default function Model({ ...props }) {
   const { nodes, materials } = useGLTF('/models/cheese.gltf')
   return (
     <group ref={group} {...props} rotation-z={Math.PI/2} dispose={null}>
+      <meshBasicMaterial color="rgb(10, 20, 30)" />
       <group rotation={[0, -Math.PI / 2, 0]}>
         <mesh geometry={nodes.mesh_0.geometry} material={nodes.mesh_0.material} />
         <mesh geometry={nodes.mesh_0_1.geometry} material={nodes.mesh_0_1.material} />
