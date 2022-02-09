@@ -1,0 +1,36 @@
+@import "variable.scss";
+.shop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    .choice {
+        display: flex;
+        gap: 20px;
+        margin: 20px;
+
+        & > div {
+            background-color: rgba(255, 255, 255, 0.719);
+            width: 130px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            cursor: pointer;
+            p {
+                margin: 0;
+                text-transform: capitalize;
+            }
+
+
+                button {
+                    border: 1px solid grey;
+                    background-color: $blue;
+                    padding: 10px;
+                }
+            
+        }
+    }
+}

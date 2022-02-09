@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@100;200;300;400;500;600;700&family=Racing+Sans+One&display=swap');
+
+
+.home {
+
+    * {
+        font-family: 'Gothic A1', sans-serif;
+        font-family: 'Racing Sans One', cursive;
+    }
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+
+    height: 100vh;
+    width: 100vw;
+
+    gap: 30px;
+
+    background: linear-gradient(-225deg, #2cd8d5 0%, #c5c1ff 56%, #ffa1ae 100%);
+
+    a {
+        background-color: rgba(255, 255, 255, 0.616);
+        font-weight: 900;
+        color: rgb(0, 217, 255);
+        text-decoration: none;
+        
+        width: 400px;
+        p {
+            font-size: 40px;
+            margin: 40px;
+        }
+        text-align: center;
+
+        &:hover {
+            background-color: rgb(255, 255, 255);
+        }
+    }
+
+    canvas {
+        cursor: pointer;
+    }
+}
+
+.blue {
+    color: rgb(80, 191, 255) !important;
+}
+
+.orange {
+    color: rgb(255, 166, 82) !important;
+}
+
+.red {
+    color: rgb(255, 103, 103) !important;
+}

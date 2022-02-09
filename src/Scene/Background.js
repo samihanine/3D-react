@@ -4,13 +4,14 @@ import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber'
 
 const Background = (props) => {
-    const myTexture = useTexture("https://ditto.tv/wp-content/uploads/2020/03/AdobeStock_299834872.jpg");
+    //const myTexture = useTexture("https://ditto.tv/wp-content/uploads/2020/03/AdobeStock_299834872.jpg");
+    const myTexture = useTexture("https://t4.ftcdn.net/jpg/03/81/81/55/360_F_381815539_CUlqLBRjBFrFnkRNUGaF52eL5fNXSwrU.jpg");
     //const myTexture = useTexture("/images/sunset.jpg");
     const img = useRef();
 
     useFrame(() => {
       if (img.current) {
-        if (props.camera.current) img.current.position.z = props.camera.current.position.z;
+        if (props.camera?.current) img.current.position.z = props.camera.current.position.z;
         img.current.rotation.y += 0.0002;
         img.current.rotation.x += 0.0002;
       }

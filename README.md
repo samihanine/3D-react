@@ -15,5 +15,5 @@
 
 ### Packages
 ```
-npm i @react-three/fiber three sass node-sass @react-three/drei react-icons react-router react-router-dom
+npm i @react-three/fiber three sass node-sass @react-three/drei react-icons react-router react-router-dom js-confetti
 ```

@@ -32,7 +32,7 @@ export function generateBlocks(props) {
     
 
     // voitures
-    if (["1","5","2","7"].includes(digit)) {
+    if (["1","5","2","7"].includes(digit) && !props.start) {
 
         ground.push({ 
             Model: <mesh rotation-y={Math.PI/2}  {...props}>{getRandomItem(obstacles)}</mesh>, 
